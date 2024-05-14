@@ -6,15 +6,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-driver_path = 'chromedriver.exe'
+driver_path = "chromedriver.exe"
 service = Service(driver_path)
 driver = webdriver.Chrome(service=service)
 
-ingredients = ['banana', 'egg', 'breakfast', 'Fall']
+ingredients = ['banana', 'breakfast']
 
 driver.get('https://www.food.com/search/')
 
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, 2)
 
 search_input = wait.until(EC.element_to_be_clickable((By.ID, 'search-input')))
 
