@@ -24,6 +24,15 @@ print(ingredient)
 search_input.clear()
 search_input.send_keys(ingredient)
 search_input.send_keys(Keys.RETURN)
-time.sleep(5)
 
+wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, 'inner-wrapper')))
+
+links = driver.find_elements(By.CSS_SELECTOR, '.inner-wrapper a')
+
+find = []
+for link in links[:4]:
+    href = link.get_attribute('href')
+    find.append(href)
+
+print(find)
 driver.quit()
