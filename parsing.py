@@ -1,10 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 
 # 初始化 WebDriver
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver_path = "chromedriver.exe"
+service = Service(driver_path)
+driver = webdriver.Chrome(service=service)
 
 # 您要抓取的食譜網址
 url = "https://www.food.com/recipe/bourbon-chicken-45809"
