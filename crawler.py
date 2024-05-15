@@ -1,3 +1,9 @@
+'''
+我需要你幫我完成一下一些搜尋的小部分功能
+因為我的搜尋有可能搜尋完不足4個資訊
+如果搜尋完 在畫面上的 h2 id="searchModuleTitle" 裡面的內容為 No matches. 那應該直接結束 然後顯示沒有東西
+如果少於四個資訊 你就應該動態的有多少個抓多少個。
+'''
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
