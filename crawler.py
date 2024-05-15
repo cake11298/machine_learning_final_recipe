@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import parsing
 
 driver_path = "chromedriver.exe"
 service = Service(driver_path)
@@ -34,5 +35,8 @@ for link in links[:4]:
     href = link.get_attribute('href')
     find.append(href)
 
-print(find)
+for link in find:
+    print(link)
+    print(parsing.parse_recipe(link))
+
 driver.quit()
