@@ -73,14 +73,12 @@ def crawler():
         
         links = driver.find_elements(By.CSS_SELECTOR, '.inner-wrapper a')
         links = [link.get_attribute('href') for link in links[:4]]  # Fetch up to the first four links or fewer if less are found
-    
     finally:
         driver.quit()
 
     results = []
     threads = []
-    print(links)
-    
+
     for url in links:
         thread = threading.Thread(target=thread_function, args=(url, results))
         threads.append(thread)
@@ -90,7 +88,3 @@ def crawler():
         thread.join()
 
     return results
-
-if __name__ == '__main__':
-    results = crawler()
-    print("Crawled data:", results)

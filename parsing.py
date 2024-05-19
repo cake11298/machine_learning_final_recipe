@@ -10,15 +10,13 @@ def parse_recipe(url):
     driver.get(url)
     
     try:
-        # 從網頁中提取 JSON 數據
         json_element = driver.find_element(By.XPATH, "//script[@type='application/ld+json']")
         recipe_json = json.loads(json_element.get_attribute('innerHTML'))
         
-        # 建構資料字典
         data = {
-            'HEAD': recipe_json['name'],
-            'content': recipe_json['description'],
-            'pics': recipe_json['image'],
+            'text': recipe_json['name'],
+            'description': recipe_json['description'],
+            'img': recipe_json['image'],
             'ingredients': [ingredient for ingredient in recipe_json['recipeIngredient']],
             'directions': [step['text'] for step in recipe_json['recipeInstructions']],
             'nutrition': [
@@ -37,5 +35,3 @@ def parse_recipe(url):
         driver.quit()
     
     return data
-
-# Example of using the function
