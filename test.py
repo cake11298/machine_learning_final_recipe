@@ -36,14 +36,18 @@ def parse_recipe(url, driver):
         print(f"Error processing URL {url}: {str(e)}")
         return {}
     finally:
-        driver.quit()
+        driver.quit()  # Ensure each thread cleans up its WebDriver instance
     return data
 
 def thread_function(url, results):
     driver_path = "chromedriver.exe"
     service = Service(driver_path)
     options = Options()
-    options.headless = True
+    options.add_argument("--headless")  # Ensure operation in headless mode
+    options.add_argument("--disable-gpu")  # Disable GPU hardware acceleration
+    options.add_argument("--no-sandbox")  # Bypass OS security model
+    options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")  # Use a common user-agent
     driver = webdriver.Chrome(service=service, options=options)
     results.append(parse_recipe(url, driver))
 
@@ -51,10 +55,14 @@ def crawler():
     driver_path = "chromedriver.exe"
     service = Service(driver_path)
     options = Options()
-    options.headless = True
+    options.add_argument("--headless")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")  # Use a common user-agent
     driver = webdriver.Chrome(service=service, options=options)
 
-    ingredients = ['banana']
+    ingredients = ['chinese', 'chocolate', 'banana']
     driver.get('https://www.food.com/search/')
     wait = WebDriverWait(driver, 10)  # Increased timeout for reliability
 
@@ -74,16 +82,18 @@ def crawler():
         links = driver.find_elements(By.CSS_SELECTOR, '.inner-wrapper a')
         links = [link.get_attribute('href') for link in links[:4]]  # Fetch up to the first four links or fewer if less are found
     finally:
-        driver.quit()
+        driver.quit()  # Quit the initial search driver after fetching links
 
     results = []
     threads = []
 
+    # Create a thread for each URL to be processed
     for url in links:
         thread = threading.Thread(target=thread_function, args=(url, results))
         threads.append(thread)
         thread.start()
 
+    # Wait for all threads to complete their tasks
     for thread in threads:
         thread.join()
 
