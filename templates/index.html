@@ -1,13 +1,262 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文章展示</title>
+    <title>食味製研所</title>
     <style>
+        /* Reset CSS */
+        body, h1, h2, h3, p, ul, li {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4eded; 
+            color: #333;
+            line-height: 1.6;
+        }
+		   
+		header {
+		background-image: url('https://res.klook.com/image/upload/fl_lossy.progressive,w_1280,h_854,c_fill,q_85/activities/tkqfwvtuzwzyl6fvutnz.jpg');
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		padding: 50px 0;
+		text-align: center;
+		background-color: rgba(0, 0, 0, 0.5);
+			
+		}
+
+		header h1,
+		header p {
+			font-size: 48px; /* 調整字體大小 */
+			margin-bottom: 10px;
+			color: #fff;
+			text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+		}
+
+		header p {
+			font-size: 24px; /* 調整字體大小 */
+		}
+
+		input[type="text"] {
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			padding: 10px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+			background-color: #f9f9f9;
+		}
+		select {
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			background-color: #f9f9f9;
+			color: #333;
+		}
+
+        /* Navigation Styles */
+        nav {
+            background-color: #d9a09a;
+            padding: 20px 0;
+            text-align: center;
+			
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center; /* 將選項置中 */
+            gap: 20px; /* 選項間隔 */
+        }
+        nav li {
+            margin: 0;
+            position: relative;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #d1a8a0; /* 滑鼠懸停時 */
+        }
+
+        /* Dropdown Menu Styles */
+        nav ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #d9a09a;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        nav ul li:hover ul {
+            display: block;
+        }
+        nav ul li ul li {
+            display: block;
+            width: 100%;
+        }
+        nav ul li ul li a {
+            padding: 10px;
+            display: block;
+        }
+
+        /* Main Content Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        section {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        section p {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        /* Footer Styles */
+        footer {
+            background-color: #d9a09a; 
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        footer p {
+            font-size: 14px;
+        }
+
+        .popup_out {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            z-index: 9999;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            z-index: 9999;
+        }
+        
+    
+        /* 背景模糊效果 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+            display: none;
+        }
+
+        
+		
+		.recipe-carousel {
+			overflow: hidden;
+			width: 100%;
+		}
+
+		.recipe-list {
+			display: flex;
+			transition: transform 0.5s ease;
+		}
+
+		.recipe {
+			flex: 0 0 33.33%; /* 一次顯示三個食譜 */
+			box-sizing: border-box;
+			padding: 10px;
+		}
+
+
+        .recipe-content {
+			padding: 10px;
+			background-color: #f9f9f9;
+			border-radius: 5px;
+			display: flex;
+			flex-direction: column;
+			align-items: center; /* 水平居中 */
+			text-align: center; /* 文本水平居中 */
+		}
+
+        .recipe img {
+            width: 80%;
+            height: 80%;
+            border-radius: 5px;
+        }
+        .recipe p {
+            margin-top: 5px;
+        }
+        .recipe:hover p {
+            font-weight: bold; /* 滑鼠懸停時文字變為粗體 */
+        }
+		/* Style for the submit button */
+		button {
+			display: block; /* 讓按鈕成為塊級元素以便居中 */
+			width: 200px; /* 設置按鈕寬度 */
+			padding: 15px; /* 增加內邊距 */
+			margin: 20px auto; /* 上下間距20px，左右居中 */
+			background-color: #d9a09a; /* 背景顏色 */
+			color: #fff; /* 字體顏色 */
+			font-size: 18px; /* 字體大小 */
+			border: none; /* 去掉邊框 */
+			border-radius: 5px; /* 圓角 */
+			cursor: pointer; /* 滑鼠樣式 */
+			transition: background-color 0.3s ease; /* 動畫效果 */
+		}
+
+		button:hover {
+			background-color: #b88580; /* 滑鼠懸停時的背景顏色 */
+		}
+
+        section button {
+            display: block; /* 讓按鈕成為塊級元素以便居中 */
+			width: 100px; /* 設置按鈕寬度 */
+			padding: 5px; /* 增加內邊距 */
+			margin: 10px auto; /* 上下間距20px，左右居中 */
+			background-color: #d9a09a; /* 背景顏色 */
+			color: #fff; /* 字體顏色 */
+			font-size: 12px; /* 字體大小 */
+			border: none; /* 去掉邊框 */
+			border-radius: 5px; /* 圓角 */
+			cursor: pointer; /* 滑鼠樣式 */
+			transition: background-color 0.3s ease; /* 動畫效果 */
+        }
+
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(3, 2fr);
             gap: 10px;
             padding: 10px;
         }
@@ -16,12 +265,14 @@
             padding: 10px;
         }
         .article img {
-            width: 100%;
-            height: auto;
+            width: 80%;
+            height: 80%;
+            border-radius: 5px;
         }
         #progress {
             width: 100%;
             background: #ccc;
+            display:none;
         }
         #progress-bar {
             width: 0%;
@@ -30,55 +281,310 @@
             text-align: center;
             color: white;
         }
+
     </style>
 </head>
 <body>
-    <div class="grid-container">
-        {% for article in articles %}
-            <div class="article">
-                <img src="{{ article.pics }}" alt="Article Image">
-                <p>{{ article.text }}</p>
-            </div>
-        {% endfor %}
+    <header>
+        <h1>食味製研所</h1>
+        <p>讓我們帶您發掘美味食譜的世界！</p>
+    </header>
+    <div id="nav-wrapper">
+        <nav>
+            <ul>
+                <li><a href="#" id="back-to-top">首頁</a></li>
+                <li><a href="#select-function">選擇功能</a>
+                    <ul>
+						<li><a href="#recipe-type">搜尋類別</a></li>
+                        <li><a href="#age-group">個人化</a></li>                    
+                    </ul>
+                </li>
+				   <li><a href="#popular-recipes">熱門食譜</a></li>
+            </ul>
+        </nav>
     </div>
-    <div id="progress">
+    <div class="container">
+        <section id="about-us">
+            <h2>關於我們</h2>
+            <p>食味製研所是一個能夠辨識食物並提供客製化推薦食譜的網站。</p>
+            <p>您只需要上傳食物圖片或輸入食材名稱，我們會幫助您找到最適合您的美味食譜！</p>
+        </section>
+
+		<section id="recipe-type">
+            <h2>上傳圖片</h2>	
+			<div id="imageOption">
+                <input type="file" id="imageUploadInput" accept="image/*">
+            </div>
+            			
+            <h4>食譜種類</h4>
+            <select id="timingOption">
+                <option value="nooption">*選填*</option>
+                <option value="Breakfast">早餐和早午餐</option>
+                <option value="Lunch">午餐</option>
+                <option value="Appetizers">開胃菜和小吃</option>
+				<option value="dinner">晚餐</option>
+				<option value="Dessert">甜點</option>
+				<option value="Drink">飲品</option>
+				<option value="Grilling">燒烤料理</option>
+				<option value="Easy">快速簡便食譜</option>
+				<option value="Baking">烘焙</option>
+            </select>
+            <h4>料理風味</h4>
+            <select id="typeOption">
+                <option value="nooption">*選填*</option>
+                <option value="vegetarian">素食料理</option>
+                <option value="thai">泰式料理</option>
+                <option value="korean">韓式料理</option>
+                <option value="japanese">日式料理</option>
+                <option value="chinese">中式料理</option>
+                <option value="french">法式料理</option>
+                <option value="italian">義式料理</option>
+            </select>
+            
+			
+
+        </section>
+		<section id="age-group">
+            <h2>個人化（非必填）</h2>
+            <h4>適用年齡</h4>
+            <select id="ageSelectOption">
+                <option value="all">全部</option>
+                <option value="child">兒童</option>
+                <option value="adult">成人</option>
+                <option value="senior">老年人</option>
+            </select>
+            <h4>性別</h4>
+            <select id="genderSelectOption">
+                <option value="male">男</option>
+                <option value="female">女</option>
+                <option value="neutral">不回答</option>
+            </select>
+            
+			<h4>身高</h4>
+            <div id="textOption">
+                <input type="text" id="height" placeholder="請輸入身高">
+            </div>
+            <h4>體重</h4>
+            <div id="textOption">
+                <input type="text" id="weight" placeholder="請輸入體重">
+            </div>
+			
+        </section>
+
+		<div style="text-align: center;">
+				<button onclick="submitData(), uploadImage(), op_submitData()">提交</button>
+			</div>
+        <section id="popular-recipes">
+            <h2>熱門食譜</h2>
+            <div class="recipe-carousel">
+                <div class="recipe-list">
+                    <div class="recipe">
+                        <div class="recipe-content" onclick="openPopup()">
+                            <img src="https://d3l76hx23vw40a.cloudfront.net/recipe/gy63-041.jpg" alt="奶油焗龍蝦">
+                            <p>焗烤奶油龍蝦</p>
+                        </div>
+                    </div>
+                    <div class="recipe">
+                        <div class="recipe-content" onclick="openPopup()">
+                            <img src="https://d3l76hx23vw40a.cloudfront.net/recipe/webp/gy63-012.webp" alt="紹興醉雞">
+                            <p>紹興醉雞</p>
+                        </div>
+                    </div>
+                    <div class="recipe">
+                        <div class="recipe-content" onclick="openPopup()">
+                            <img src="https://d3l76hx23vw40a.cloudfront.net/recipe/webp/gy63-013.webp" alt="客家鹹豬肉">
+                            <p>客家鹹豬肉</p>
+                        </div>
+                    </div>
+                    <div class="recipe">
+                        <div class="recipe-content" onclick="openPopup()">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeHocM_yXR-ePAm_RNqg-FMiwM2mdbPFvL_40c-IZvrQ&s" alt="巧克力蛋糕">
+                            <p>巧克力蛋糕</p>
+                        </div>
+                    </div>
+                    <div class="recipe">
+                        <div class="recipe-content" onclick="openPopup()">
+                            <img src="https://www.thermos.com.tw/Upload/RECICONT/294/%E9%A6%99%E7%85%8E%E9%AE%AD%E9%AD%9A%E4%BD%90%E5%A4%A7%E8%92%9C%E5%A5%B6%E6%B2%B9%E6%AA%B8%E6%AA%AC.jpg" alt="烤鮭魚佐檸檬醬">
+                            <p>烤鮭魚佐檸檬醬</p>
+                        </div>
+                    </div>
+                    <div class="recipe">
+                        <div class="recipe-content" onclick="openPopup()">
+                            <img src="https://tokyo-kitchen.icook.network/uploads/recipe/cover/267919/7aa4779ce5040c2a.jpg" alt="墨西哥玉米餅塔可">
+                            <p>墨西哥玉米餅塔可</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+	    </section>
+    <div class="overlay" id="overlay"></div>
+    <div class="popup_out" id="popup_out">
+        {% for article in articles %}
+            <div class="article" >
+                <p>{{ article.ingredients }}</p>                  
+            </div>      
+            <h2>食譜標題</h2>
+            <p>做法、熱量之類的</p>
+            <button onclick="closePopup()">關閉視窗</button>
+            {% endfor %}
+    </div>
+    <div id="progress" display="block">
         <div id="progress-bar">0%</div>
     </div>
     <button onclick="refreshArticles()">刷新文章</button>
+    <section>
+        <div class="recipe-carousel">
+            <div class="recipe-list">
+                <div class="grid-container">
+                    {% for article in articles %}
+                        <div class="article" >
+                            <img src="{{ article.pics }}" alt="Article Image">
+                            <p>{{ article.text }}</p>
+                            <p>{{article.description}}</p>
+                            <button onclick="openPopup()">查看食譜</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <br>
+    <br>
+</body>
+
+<footer>
+    <p>ChefChatter 食味製研所</p>
+</footer>
 
     <script>
-        function refreshArticles() {
-            var progressBar = document.getElementById('progress-bar');
-            progressBar.style.width = '0%';  // Reset progress bar
-            progressBar.textContent = '0%';  // Reset text
-            var interval = 210;  // Interval in ms
-            var width = 0;
 
-            var timer = setInterval(function() {
-                width++;
-                progressBar.style.width = width + '%';
-                progressBar.textContent = width + '%';
-                if (width >= 100) {
-                    clearInterval(timer);
+        // 讀取圖片
+        function uploadImage() {
+            const input = document.getElementById('uploadInput');
+            const preview = document.getElementById('preview');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        preview.innerHTML = ''; // 清除預覽以前的圖片
+                        preview.appendChild(img);
+                    };
                 }
-            }, 210);  // Update the progress bar every 350ms, which totals roughly 35 seconds to reach 100%
 
-            fetch('/refresh', { method: 'POST' })
-                .then(response => response.json())
-                .then(data => {
-                    const container = document.querySelector('.grid-container');
-                    container.innerHTML = '';
-                    data.forEach(article => {
-                        const articleDiv = document.createElement('div');
-                        articleDiv.className = 'article';
-                        articleDiv.innerHTML = `<img src="${article.img}" alt="Article Image"><p>${article.text}</p>`;
-                        container.appendChild(articleDiv);
-                    });
-                    clearInterval(timer);  // Stop the timer when data is received
-                    progressBar.style.width = '100%';
-                    progressBar.textContent = '100%';
-                });
+                reader.readAsDataURL(input.files[0]);
+            }
         }
+
+        function submitData() {
+            // 讀取食物文字輸入
+            const foodInput = document.getElementById('textInput').value;
+            const heightInput = document.getElementById('height').value;
+            const weightInput = document.getElementById('weight').value;
+
+            
+        }
+
+        function op_submitData() {
+            // 獲取年齡下拉式選單的值
+            const ageSelectElement = document.getElementById('ageSelectOption');
+            const ageSelectedValue = ageSelectElement.value;
+            const genderSelectElement = document.getElementById('genderSelectOption');
+            const genderSelectValue = genderSelectElement.value;
+            const timingOptionElement = document.getElementById('timingOption');
+            const timingOptionValue = timingOptionElement.value;
+            const typeOptionElement = document.getElementById('typeOption');
+            const typeOptionValue = typeOptionElement.value;
+
+            // 在輸出區域顯示選擇的值
+            //const outputop = document.getElementById('op_output');
+            //op_output.innerText = "你選擇的值是：" + selectedValue;
+        }
+
+        function openPopup() {
+            document.getElementById("popup_out").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        // 關閉彈出視窗
+        function closePopup() {
+            document.getElementById("popup_out").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+		
+    let currentIndex = 0;
+    const recipes = document.querySelectorAll('.recipe');
+    const totalRecipes = recipes.length;
+
+    function showNextRecipe() {
+        currentIndex++;
+        const recipeList = document.querySelector('.recipe-list');
+
+        // 使用 translateX 实现动画效果
+        recipeList.style.transition = 'transform 0.5s ease';
+        recipeList.style.transform = `translateX(-${(currentIndex * 100) / 3}%)`;
+
+        // 在动画结束后，将第一个食谱移到最后，并重置 transform
+        setTimeout(() => {
+            recipeList.style.transition = 'none';
+            recipeList.appendChild(recipeList.firstElementChild);
+            currentIndex--;
+            recipeList.style.transform = `translateX(-${(currentIndex * 100) / 3}%)`;
+        }, 500);
+    }
+
+    setInterval(showNextRecipe, 2500); // 每3秒切換一次
+    function refreshArticles() {
+        document.getElementById("progress").style.display = "block";
+        var progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = '0%';  // Reset progress bar
+        progressBar.textContent = '0%';  // Reset text
+        var interval = 210;  // Interval in ms
+        var width = 0;
+
+        var timer = setInterval(function() {
+            width++;
+            progressBar.style.width = width + '%';
+            progressBar.textContent = width + '%';
+            if (width >= 100) {
+                clearInterval(timer);
+            }
+        }, 300);  // Update the progress bar every 350ms, which totals roughly 35 seconds to reach 100%
+
+        fetch('/refresh', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                const container = document.querySelector('.grid-container');
+                container.innerHTML = '';
+                const container_pop = document.querySelector('.popup_out');
+                container_pop.innerHTML = '';
+                data.forEach(article => {
+                    const articleDiv1 = document.createElement('div');
+                    const articleDiv2 = document.createElement('div');
+                    articleDiv1.className = 'recipe';
+                    articleDiv2.className = 'recipe-content';
+                    articleDiv2.innerHTML = `<img src="${article.img}" alt="Article Image"><p>${article.text}</p><button onclick=openPopup()>查看食譜</button>`;
+                    container.appendChild(articleDiv1);
+                    articleDiv1.appendChild(articleDiv2);
+
+                    const articlepopDiv = document.createElement('div');
+                    articlepopDiv.className = 'popup';
+                    articlepopDiv.id = 'popup';
+                    articlepopDiv.innerHTML = `<p>${article.ingredients}</p><button onclick="closePopup()">關閉視窗</button>`;
+                    container_pop.appendChild(articlepopDiv); 
+                });
+                
+                clearInterval(timer);  // Stop the timer when data is received
+                progressBar.style.width = '100%';
+                progressBar.textContent = '100%';
+                document.getElementById("progress").style.display = "none";
+            });
+    }
+	
+
     </script>
 </body>
 </html>

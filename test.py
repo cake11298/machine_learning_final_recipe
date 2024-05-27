@@ -62,7 +62,7 @@ def crawler():
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")  # Use a common user-agent
     driver = webdriver.Chrome(service=service, options=options)
 
-    ingredients = ['chinese', 'chocolate', 'banana']
+    ingredients = ['lemon']
     driver.get('https://www.food.com/search/')
     wait = WebDriverWait(driver, 10)  # Increased timeout for reliability
 
@@ -80,7 +80,7 @@ def crawler():
             return []
         
         links = driver.find_elements(By.CSS_SELECTOR, '.inner-wrapper a')
-        links = [link.get_attribute('href') for link in links[:4]]  # Fetch up to the first four links or fewer if less are found
+        links = [link.get_attribute('href') for link in links[:3]]  # Fetch up to the first four links or fewer if less are found
     finally:
         driver.quit()  # Quit the initial search driver after fetching links
 

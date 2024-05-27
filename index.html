@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章展示</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            padding: 10px;
+        }
+        .article {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .article img {
+            width: 100%;
+            height: auto;
+        }
+        #progress {
+            width: 100%;
+            background: #ccc;
+        }
+        #progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: blue;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        {% for article in articles %}
+            <div class="article">
+                <img src="{{ article.pics }}" alt="Article Image">
+                <p>{{ article.text }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="progress">
+        <div id="progress-bar">0%</div>
+    </div>
+    <button onclick="refreshArticles()">刷新文章</button>
+
+    <script>
+        function refreshArticles() {
+            var progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = '0%';  // Reset progress bar
+            progressBar.textContent = '0%';  // Reset text
+            var interval = 210;  // Interval in ms
+            var width = 0;
+
+            var timer = setInterval(function() {
+                width++;
+                progressBar.style.width = width + '%';
+                progressBar.textContent = width + '%';
+                if (width >= 100) {
+                    clearInterval(timer);
+                }
+            }, 210);  // Update the progress bar every 350ms, which totals roughly 35 seconds to reach 100%
+
+            fetch('/refresh', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.querySelector('.grid-container');
+                    container.innerHTML = '';
+                    data.forEach(article => {
+                        const articleDiv = document.createElement('div');
+                        articleDiv.className = 'article';
+                        articleDiv.innerHTML = `<img src="${article.img}" alt="Article Image"><p>${article.text}</p>`;
+                        container.appendChild(articleDiv);
+                    });
+                    clearInterval(timer);  // Stop the timer when data is received
+                    progressBar.style.width = '100%';
+                    progressBar.textContent = '100%';
+                });
+        }
+    </script>
+</body>
+</html>
