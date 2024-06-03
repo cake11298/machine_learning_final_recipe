@@ -51,8 +51,8 @@ def thread_function(url, results):
     driver = webdriver.Chrome(service=service, options=options)
     results.append(parse_recipe(url, driver))
 
-def crawler():
-    driver_path = "chromedriver.exe"
+def crawler(ingredients):
+    driver_path = "chromedriver.exe" # /opt/homebrew/bin/chromedriver for MacOS
     service = Service(driver_path)
     options = Options()
     options.add_argument("--headless")
@@ -62,7 +62,6 @@ def crawler():
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")  # Use a common user-agent
     driver = webdriver.Chrome(service=service, options=options)
 
-    ingredients = ['lemon']
     driver.get('https://www.food.com/search/')
     wait = WebDriverWait(driver, 10)  # Increased timeout for reliability
 

@@ -149,12 +149,17 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 80%;  /* Adjust width as necessary */
+            max-height: 80%;  /* Limit the height to ensure it doesn't go off screen */
             background-color: #fff;
             padding: 20px;
             border: 2px solid #333;
             border-radius: 5px;
             z-index: 9999;
+            overflow-y: auto;  /* Enables vertical scrolling */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);  /* Optional: Adds shadow for better visibility */
         }
+
         .popup {
             display: none;
             position: fixed;
@@ -307,73 +312,72 @@
         <section id="about-us">
             <h2>關於我們</h2>
             <p>食味製研所是一個能夠辨識食物並提供客製化推薦食譜的網站。</p>
-            <p>您只需要上傳食物圖片或輸入食材名稱，我們會幫助您找到最適合您的美味食譜！</p>
+            <p>您只需要上傳食物圖片，我們會幫助您找到最適合您的美味食譜！</p>
         </section>
 
-		<section id="recipe-type">
-            <h2>上傳圖片</h2>	
-			<div id="imageOption">
-                <input type="file" id="imageUploadInput" accept="image/*">
-            </div>
-            			
-            <h4>食譜種類</h4>
-            <select id="timingOption">
-                <option value="nooption">*選填*</option>
-                <option value="Breakfast">早餐和早午餐</option>
-                <option value="Lunch">午餐</option>
-                <option value="Appetizers">開胃菜和小吃</option>
-				<option value="dinner">晚餐</option>
-				<option value="Dessert">甜點</option>
-				<option value="Drink">飲品</option>
-				<option value="Grilling">燒烤料理</option>
-				<option value="Easy">快速簡便食譜</option>
-				<option value="Baking">烘焙</option>
-            </select>
-            <h4>料理風味</h4>
-            <select id="typeOption">
-                <option value="nooption">*選填*</option>
-                <option value="vegetarian">素食料理</option>
-                <option value="thai">泰式料理</option>
-                <option value="korean">韓式料理</option>
-                <option value="japanese">日式料理</option>
-                <option value="chinese">中式料理</option>
-                <option value="french">法式料理</option>
-                <option value="italian">義式料理</option>
-            </select>
-            
-			
 
-        </section>
-		<section id="age-group">
-            <h2>個人化（非必填）</h2>
-            <h4>適用年齡</h4>
-            <select id="ageSelectOption">
-                <option value="all">全部</option>
-                <option value="child">兒童</option>
-                <option value="adult">成人</option>
-                <option value="senior">老年人</option>
-            </select>
-            <h4>性別</h4>
-            <select id="genderSelectOption">
-                <option value="male">男</option>
-                <option value="female">女</option>
-                <option value="neutral">不回答</option>
-            </select>
-            
-			<h4>身高</h4>
-            <div id="textOption">
-                <input type="text" id="height" placeholder="請輸入身高">
-            </div>
-            <h4>體重</h4>
-            <div id="textOption">
-                <input type="text" id="weight" placeholder="請輸入體重">
-            </div>
-			
-        </section>
+        <form id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+            <section id="recipe-type">
+                <h2>上傳圖片</h2>	
+                <div class="imageOption">
+                    <input type="file" name="imageUploadInput" accept="image/*">
+                </div>
+                                
+                <h4>食譜種類</h4>
+                <select name="timingOption">
+                    <option value="nooption">*選填*</option>
+                    <option value="Breakfast">早餐和早午餐</option>
+                    <option value="Lunch">午餐</option>
+                    <option value="Appetizers">開胃菜和小吃</option>
+                    <option value="dinner">晚餐</option>
+                    <option value="Dessert">甜點</option>
+                    <option value="Drink">飲品</option>
+                    <option value="Grilling">燒烤料理</option>
+                    <option value="Easy">快速簡便食譜</option>
+                    <option value="Baking">烘焙</option>
+                </select>
+                <h4>料理風味</h4>
+                <select name="typeOption">
+                    <option value="nooption">*選填*</option>
+                    <option value="vegetarian">素食料理</option>
+                    <option value="thai">泰式料理</option>
+                    <option value="korean">韓式料理</option>
+                    <option value="japanese">日式料理</option>
+                    <option value="chinese">中式料理</option>
+                    <option value="french">法式料理</option>
+                    <option value="italian">義式料理</option>
+                </select>
+            </section>
+            <section id="age-group">
+                <h2>個人化（非必填）</h2>
+                <h4>性別</h4>
+                <select name="genderSelectOption">
+                    <option value="male">男</option>
+                    <option value="female">女</option>
+                    <option value="neutral">不回答</option>
+                </select>
+                
+                <h4>身高</h4>
+                <input type="text" name="height" placeholder="請輸入身高" required>
+                
+                <h4>體重</h4>
+                <input type="text" name="weight" placeholder="請輸入體重" required>
+                
+                <h4>體指率</h4>
+                <input type="text" name="fat" placeholder="請輸入體指率" required>
 
-		<div style="text-align: center;">
-				<button onclick="submitData(), uploadImage(), op_submitData()">提交</button>
-			</div>
+                <h4>年齡</h4>
+                <input type="text" name="age" placeholder="請輸入年齡" required>
+            </section>
+        
+            <div style="text-align: center;">
+                <button type="submit">提交</button>
+            </div>
+        </form>
+        
+        <p>Recognized: <span id="recognized"></span></p>
+        <p>Prediction: <span id="prediction"></span></p>
+
         <section id="popular-recipes">
             <h2>熱門食譜</h2>
             <div class="recipe-carousel">
@@ -425,7 +429,7 @@
             </div>      
             <h2>食譜標題</h2>
             <p>做法、熱量之類的</p>
-            <button onclick="closePopup()">關閉視窗</button>
+            <button onclick="closePopup({{article.id}})">關閉視窗</button>
             {% endfor %}
     </div>
     <div id="progress" display="block">
@@ -440,8 +444,7 @@
                         <div class="article" >
                             <img src="{{ article.pics }}" alt="Article Image">
                             <p>{{ article.text }}</p>
-                            <p>{{article.description}}</p>
-                            <button onclick="openPopup()">查看食譜</button>
+                            <button onclick="openPopup({{ article.id }})">查看食譜</button>
                         </div>
                     {% endfor %}
                 </div>
@@ -458,34 +461,63 @@
 
     <script>
 
-        // 讀取圖片
-        function uploadImage() {
-            const input = document.getElementById('uploadInput');
-            const preview = document.getElementById('preview');
-
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.onload = function() {
-                        preview.innerHTML = ''; // 清除預覽以前的圖片
-                        preview.appendChild(img);
-                    };
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
+        function updateData() {
+            fetch('/upload').then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data); 
+                document.getElementById('recognized').innerText = data.recognized;
+                document.getElementById('prediction').innerText = data.prediction;
+            }).catch(error => {
+                console.error('Error:', error);
+            });
         }
 
-        function submitData() {
-            // 讀取食物文字輸入
-            const foodInput = document.getElementById('textInput').value;
-            const heightInput = document.getElementById('height').value;
-            const weightInput = document.getElementById('weight').value;
+        document.getElementById('uploadForm').addEventListener('submit', function(event){
+            event.preventDefault();  // 阻止表单默认提交
+            updateData();  // 调用更新数据的函数
+        });
 
-            
+        
+        // 讀取圖片
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // 阻止表单默认提交
+
+            var formData = new FormData(this);  // 创建 FormData 对象
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);  // 输出返回的数据
+                document.getElementById('recognized').innerText = data.recognized;
+                document.getElementById('prediction').innerText = data.prediction;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+
+        function submitData() {
+            const foodInputEl = document.getElementById('textInput');
+            if (foodInputEl) {
+                const foodInput = foodInputEl.value;
+
+            } else {
+                console.log('textInput element not found');
+            }
+            const heightInputEl = document.getElementById('height');
+            const weightInputEl = document.getElementById('weight');
+
+            if (heightInputEl && weightInputEl) {
+                const heightInput = heightInputEl.value;
+                const weightInput = weightInputEl.value;
+                console.log(`Height: ${heightInput}, Weight: ${weightInput}`);
+                // 根据获取的数据执行后续操作
+            } else {
+                console.log('Height and/or Weight input element not found');
+            }
         }
 
         function op_submitData() {
@@ -504,16 +536,111 @@
             //op_output.innerText = "你選擇的值是：" + selectedValue;
         }
 
-        function openPopup() {
-            document.getElementById("popup_out").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
+        function refreshArticles() {
+            document.getElementById("progress").style.display = "block";
+            var progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = '0%';  // Reset progress bar
+            progressBar.textContent = '0%';  // Reset text
+            var interval = 210;  // Interval in ms
+            var width = 0;
+        
+            var timer = setInterval(function() {
+                width++;
+                progressBar.style.width = width + '%';
+                progressBar.textContent = width + '%';
+                if (width >= 100) {
+                    clearInterval(timer);
+                }
+            }, 300);  // Update the progress bar every 300ms, which totals roughly 30 seconds to reach 100%
+        
+            fetch('/refresh', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.querySelector('.grid-container');
+                    container.innerHTML = '';
+                    const container_pop = document.querySelector('.popup_out');
+                    container_pop.innerHTML = '';
+                    data.forEach((article, index) => {
+                        const articleDiv1 = document.createElement('div');
+                        const articleDiv2 = document.createElement('div');
+                        article.id = index;
+                        articleDiv1.className = 'recipe';
+                        articleDiv2.className = 'recipe-content';
+                        articleDiv2.innerHTML = `
+                            <img src="${article.img}" alt="Article Image">
+                            <p>${article.text}</p>
+                            <button onclick="openPopup(${article.id})">查看食譜</button>`;
+                        container.appendChild(articleDiv1);
+                        articleDiv1.appendChild(articleDiv2);
+        
+                        const articlepopDiv = document.createElement('div');
+                        articlepopDiv.className = 'popup';
+                        articlepopDiv.id = `popup-${index}`;
+                        articlepopDiv.innerHTML = `<p>${article.ingredients.join(', ')}</p><button onclick="closePopup('popup-${index}')">關閉視窗</button>`;
+                        container_pop.appendChild(articlepopDiv); 
+                    });
+                    
+                    clearInterval(timer);  // Stop the timer when data is received
+                    progressBar.style.width = '100%';
+                    progressBar.textContent = '100%';
+                    document.getElementById("progress").style.display = "none";
+                });
+        }
+        
+        function openPopup(articleId) {
+            console.log("Article ID received in openPopup:", articleId);  // 調試用
+            const popup_out = document.getElementById("popup_out");
+            const overlay = document.getElementById("overlay");
+        
+            fetch(`/getRecipe?articleId=${articleId}`)
+                .then(response => response.json())
+                .then(recipe => {
+                    if (recipe.error) {
+                        console.error('Error fetching recipe:', recipe.error);
+                        return;
+                    }
+        
+                    // Ensure that ingredients are in an array format
+                    const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : recipe.ingredients ? [recipe.ingredients] : [];
+        
+                    // Proceed with creating HTML elements
+                    let ingredientsHTML = `<h3>Ingredients</h3><ul>${ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}</ul>`;
+                    let directionsHTML = `<h3>Directions</h3><ul>${recipe.directions.map(step => `<li>${step}</li>`).join('')}</ul>`;
+                    let nutritionHTML = `<h3>Nutrition</h3><ul>${recipe.nutrition.map(nutrient => `<li>${nutrient}</li>`).join('')}</ul>`;
+        
+                    popup_out.innerHTML = ''; // Clear current popup content
+                    const articleDiv = document.createElement('div');
+                    articleDiv.className = 'article';
+                    articleDiv.innerHTML = `
+                        <h2>${recipe.text}</h2>
+                        <img src="${recipe.img}" alt="Recipe Image" style="width:100%; max-height:300px; object-fit:contain;">
+                        ${ingredientsHTML}
+                        ${directionsHTML}
+                        ${nutritionHTML}
+                        <button onclick="closePopup('popup_out')">關閉視窗</button>`;
+        
+                    popup_out.appendChild(articleDiv);
+        
+                    // Display popup and overlay
+                    popup_out.style.display = "block";
+                    overlay.style.display = "block";
+                })
+                .catch(error => {
+                    console.error('Error fetching recipe:', error);
+                });
+        }
+        
+        function closePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            const overlay = document.getElementById("overlay");
+            if (popup) {
+                popup.style.display = "none";
+            }
+            if (overlay) {
+                overlay.style.display = "none";
+            }
         }
 
-        // 關閉彈出視窗
-        function closePopup() {
-            document.getElementById("popup_out").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        }
 		
     let currentIndex = 0;
     const recipes = document.querySelectorAll('.recipe');
@@ -537,53 +664,7 @@
     }
 
     setInterval(showNextRecipe, 2500); // 每3秒切換一次
-    function refreshArticles() {
-        document.getElementById("progress").style.display = "block";
-        var progressBar = document.getElementById('progress-bar');
-        progressBar.style.width = '0%';  // Reset progress bar
-        progressBar.textContent = '0%';  // Reset text
-        var interval = 210;  // Interval in ms
-        var width = 0;
-
-        var timer = setInterval(function() {
-            width++;
-            progressBar.style.width = width + '%';
-            progressBar.textContent = width + '%';
-            if (width >= 100) {
-                clearInterval(timer);
-            }
-        }, 300);  // Update the progress bar every 350ms, which totals roughly 35 seconds to reach 100%
-
-        fetch('/refresh', { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                const container = document.querySelector('.grid-container');
-                container.innerHTML = '';
-                const container_pop = document.querySelector('.popup_out');
-                container_pop.innerHTML = '';
-                data.forEach(article => {
-                    const articleDiv1 = document.createElement('div');
-                    const articleDiv2 = document.createElement('div');
-                    articleDiv1.className = 'recipe';
-                    articleDiv2.className = 'recipe-content';
-                    articleDiv2.innerHTML = `<img src="${article.img}" alt="Article Image"><p>${article.text}</p><button onclick=openPopup()>查看食譜</button>`;
-                    container.appendChild(articleDiv1);
-                    articleDiv1.appendChild(articleDiv2);
-
-                    const articlepopDiv = document.createElement('div');
-                    articlepopDiv.className = 'popup';
-                    articlepopDiv.id = 'popup';
-                    articlepopDiv.innerHTML = `<p>${article.ingredients}</p><button onclick="closePopup()">關閉視窗</button>`;
-                    container_pop.appendChild(articlepopDiv); 
-                });
-                
-                clearInterval(timer);  // Stop the timer when data is received
-                progressBar.style.width = '100%';
-                progressBar.textContent = '100%';
-                document.getElementById("progress").style.display = "none";
-            });
-    }
-	
+    
 
     </script>
 </body>

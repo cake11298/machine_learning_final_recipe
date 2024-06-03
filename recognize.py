@@ -1,43 +1,37 @@
-import base64
-import requests
+from keras.applications import VGG16
+from keras.applications.vgg16 import preprocess_input, decode_predictions
+from keras.utils import load_img, img_to_array
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
 
-api_key = "YOUR_API"
+# Load the VGG16 model
+model = VGG16(weights="imagenet")
 
-def encode_image(image_path):
-  with open(image_path, "rb") as image_file:
-    return base64.b64encode(image_file.read()).decode('utf-8')
+def show_image(image_path):
+    """ Display image from the path """
+    image = mpimg.imread(image_path)
+    plt.imshow(image)
+    plt.show()
 
-image_path = "189.jpeg"
+def load_and_process_image(image_path):
+    """ Load and preprocess the image for VGG16 model """
+    image = load_img(image_path, target_size=(224, 224))
+    image_array = img_to_array(image)
+    image_array_reshaped = image_array.reshape(1, 224, 224, 3)
+    return preprocess_input(image_array_reshaped)
 
-base64_image = encode_image(image_path)
+def recognize_image(image_path):
+    """ Recognize the image using VGG16 model and return the top prediction """
+    # Show the image (optional, can be removed if not needed)
+    # show_image(image_path)
 
-headers = {
-  "Content-Type": "application/json",
-  "Authorization": f"Bearer {api_key}"
-}
+    # Load and preprocess the image
+    image_preprocessed = load_and_process_image(image_path)
 
-payload = {
-  "model": "gpt-4-turbo",
-  "messages": [
-    {
-      "role": "user",
-      "content": [
-        {
-          "type": "text",
-          "text": "請分辨出此圖片中所有食材，並且使用英文列出，格式需要遵照以下回傳，並且不要回傳別的，例如\"1. shrimp 2. tomato 3. XXX\"，若沒有食材請回覆No"
-        },
-        {
-          "type": "image_url",
-          "image_url": {
-            "url": f"data:image/jpeg;base64,{base64_image}"
-          }
-        }
-      ]
-    }
-  ],
-  "max_tokens": 300
-}
+    # Predict using VGG16 model
+    predictions = model.predict(image_preprocessed)
 
-response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-
-print(response.json()['choices'][0]['message']['content'])
+    # Decode predictions
+    top_predictions = decode_predictions(predictions, top=1)
+    top1prediction_name = top_predictions[0][0][1].replace('_', ' ')
+    return top1prediction_name
